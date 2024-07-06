@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <filesystem>
 #include <iostream>
 #include <syncstream>
@@ -26,7 +27,7 @@ int main(int argc, char** argv)
 
     auto on_match = [&](const spot::match_info& match_info)
     {
-        if (std::any_of(match_info.line.begin(), match_info.line.end(), non_ascii))
+        if (std::ranges::any_of(match_info.line, non_ascii))
         {
             std::osyncstream(std::cout) << match_info.file_path << ": binary file matches\n";
             return false;

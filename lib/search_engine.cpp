@@ -76,7 +76,7 @@ namespace spot
         static bool matchstar(int c, const char* regexp, const char* text)
         {
             do
-            { /* a * matches zero or more instances */
+            {
                 if (matchhere(regexp, text))
                     return true;
             }

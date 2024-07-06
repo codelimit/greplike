@@ -75,11 +75,11 @@ namespace spot
         }
 
     private:
-        std::vector<std::jthread> thread_pool;
-
         std::queue<task_wrapper> tasks;
         std::condition_variable_any cv;
         std::mutex mtx;
+
+        std::vector<std::jthread> thread_pool;
     };
 
     job_manager::job_manager(size_t num_threads)
@@ -95,13 +95,14 @@ namespace spot
                 }
                 task_wrapper task = std::move(tasks.front());
                 tasks.pop();
-                lock.unlock();
+                // lock.unlock();
                 task();
             }
         };
 
         thread_pool.reserve(num_threads);
-        std::generate_n(std::back_inserter(thread_pool), num_threads, [&] { return std::jthread(job_thread); });
+        std::ranges::generate_n(std::back_inserter(thread_pool), static_cast<int>(num_threads),
+                                [&] { return std::jthread(job_thread); });
     }
 
     job_manager::~job_manager()
@@ -110,7 +111,7 @@ namespace spot
     }
 
     void search_file(const std::filesystem::path& path, const search_engine& engine, const callback& on_match,
-                   const search_options& options)
+                     const search_options& options)
     {
         std::ifstream file(path);
 
@@ -142,14 +143,14 @@ namespace spot
     }
 
     void search_file(const std::filesystem::path& path, const std::string& regex, const callback& on_match,
-                   const search_options& options)
+                     const search_options& options)
     {
         const std::unique_ptr<search_engine> engine = make_search_engine(regex, options.case_sensetive);
         search_file(path, *engine, on_match, options);
     }
 
     void search_directory(const std::filesystem::path& directory, const std::string& regex, const callback& on_match,
-                        const search_options& options)
+                          const search_options& options)
     {
         job_manager manager(std::thread::hardware_concurrency());
         std::vector<std::future<void>> futures;
