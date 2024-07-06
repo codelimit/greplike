@@ -4,8 +4,9 @@
 #include <fstream>
 #include <future>
 #include <queue>
-#include <search_engine.h>
 #include <thread>
+
+#include <search_engine.h>
 
 namespace spot
 {
