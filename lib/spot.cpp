@@ -95,7 +95,7 @@ namespace spot
                 }
                 task_wrapper task = std::move(tasks.front());
                 tasks.pop();
-                // lock.unlock();
+                lock.unlock();
                 task();
             }
         };
