@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     if (argc != 3)
     {
         std::cout << "Invalid number of arguments\n"
-                  << "Usage: spot.exe [regex] [initial_dir]\n";
+                  << "Usage: spot.exe <pattern> <search_dir>\n";
         return EXIT_FAILURE;
     }
 
