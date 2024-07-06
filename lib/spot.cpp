@@ -6,7 +6,7 @@
 #include <queue>
 #include <thread>
 
-#include <search_engine.h>
+#include "search_engine.h"
 
 namespace spot
 {
